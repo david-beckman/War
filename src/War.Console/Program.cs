@@ -9,9 +9,19 @@ namespace War.Console
 
     internal class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
-            Console.WriteLine("Hello World!");
+            using (var game = new Game())
+            {
+                while (game.Metadata.Battles < 100000 && game.MoveNext())
+                {
+                    Console.Write(game.Metadata.Battles);
+                    Console.Write(Strings.BattleCountSeparator);
+                    Console.WriteLine(game.Current);
+                }
+
+                Console.WriteLine(game);
+            }
         }
     }
 }

@@ -55,7 +55,12 @@ namespace War
         /// <inheritdoc />
         public override string ToString(IFormatProvider provider)
         {
-            return string.Format(provider, "{0} {1} {2}", this.Left?.Indicator ?? "xx", this.Right?.Indicator ?? "xx", this.Winner.ToString()[0]);
+            return string.Format(
+                provider,
+                "{0} {1} {2}",
+                this.Left?.Indicator ?? "xx",
+                this.Right?.Indicator ?? "xx",
+                this.Winner.ToString()[0]);
         }
     }
 }

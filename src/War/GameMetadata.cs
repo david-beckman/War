@@ -74,7 +74,12 @@ namespace War
             builder.AppendFormat(provider, "Battles: {0} ({1} vs {2})", this.Battles, this.BattlesLeftWon, this.BattlesRightWon);
             builder.AppendLine();
 
-            builder.AppendFormat(provider, "Deep Battles: {0} ({1} vs {2})", this.DeepBattles, this.DeepBattlesLeftWon, this.DeepBattlesRightWon);
+            builder.AppendFormat(
+                provider,
+                "Deep Battles: {0} ({1} vs {2})",
+                this.DeepBattles,
+                this.DeepBattlesLeftWon,
+                this.DeepBattlesRightWon);
             builder.AppendLine();
 
             builder.AppendFormat(provider, "Average Deep Battle Depth: {0}", this.AverageDeepBattleDepth);

@@ -27,6 +27,7 @@ namespace War
 
         internal static string InvalidOperation_EnumEnded => ResourceManager.GetString(nameof(InvalidOperation_EnumEnded), Culture);
 
-        internal static string InvalidOperation_EnumNotStarted => ResourceManager.GetString(nameof(InvalidOperation_EnumNotStarted), Culture);
+        internal static string InvalidOperation_EnumNotStarted =>
+            ResourceManager.GetString(nameof(InvalidOperation_EnumNotStarted), Culture);
     }
 }

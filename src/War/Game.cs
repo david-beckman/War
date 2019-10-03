@@ -127,7 +127,8 @@ namespace War
 
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         /// <param name="disposing">Indicates if dispose was called (vs the destructor).</param>
-        [SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Even though it is not used, there needs to be a signature distinction.")]
+        [SuppressMessage("Usage", "CA1801:Review unused parameters",
+            Justification = "Even though it is not used, there needs to be a signature distinction.")]
         protected virtual void Dispose(bool disposing)
         {
             this.disposed = true;

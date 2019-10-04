@@ -8,20 +8,23 @@ namespace War.Console
     using System;
     using System.Globalization;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Console = System.Console;
 
     internal class Program
     {
-        private const int DefaultMaxIterations = 100000;
+        /*
+         * Running 1,000,000 games with a battles limit of 1,000,000 resulted in a max of 29,527 battles in a completed game. Bumping that
+         * by ~50% to play it safe.
+         */
+        private const int DefaultMaxBattles = 45000;
 
-        private int? seed;
-        private int maxIterations;
+        private int maxBattles;
 
-        private Program(int maxIterations, int? seed)
+        private Program(int maxBattles)
         {
-            this.maxIterations = maxIterations;
-            this.seed = seed;
+            this.maxBattles = maxBattles;
         }
 
         private static void Main(string[] args)
@@ -36,33 +39,59 @@ namespace War.Console
                 .GroupBy(arg => arg.key, StringComparer.OrdinalIgnoreCase)
                 .ToDictionary(arg => arg.Key, arg => arg.First().value, StringComparer.OrdinalIgnoreCase);
 
+            int maxBattles = DefaultMaxBattles;
+            if (dictionary.TryGetValue(nameof(maxBattles), out var max) && max > 0)
+            {
+                maxBattles = max;
+            }
+
+            int games = 1;
+            if (dictionary.TryGetValue(nameof(games), out var count) && count >= 1)
+            {
+                games = count;
+            }
+
             int? seed = null;
             if (dictionary.TryGetValue(nameof(seed), out var seedValue))
             {
                 seed = seedValue;
             }
 
-            int maxIterations = DefaultMaxIterations;
-            if (dictionary.TryGetValue(nameof(maxIterations), out var max) && max > 0)
-            {
-                maxIterations = max;
-            }
-
-            new Program(maxIterations, seed).Start();
+            new Program(maxBattles).Start(games, seed);
         }
 
-        private void Start()
+        private void Start(int games, int? seed = null)
         {
-            using (var game = this.seed == null ? new Game() : new Game(this.seed.Value))
+            if (games == 1)
             {
-                while (game.Metadata.Battles < this.maxIterations && game.MoveNext())
+                Console.WriteLine(this.RunGame(true, seed));
+            }
+            else
+            {
+                var tasks = Enumerable
+                    .Range(0, games)
+                    .Select(offset => seed == null ? (int?)null : seed.Value + offset)
+                    .Select(s => Task.Run(() => this.RunGame(false, s)));
+                Task.WhenAll(tasks);
+                Console.WriteLine(new GamesMetadata(tasks.Select(task => task.Result)));
+            }
+        }
+
+        private GameMetadata RunGame(bool writeBattles, int? seed = null)
+        {
+            using (var game = seed == null ? new Game() : new Game(seed.Value))
+            {
+                while (game.Metadata.Battles < this.maxBattles && game.MoveNext())
                 {
-                    Console.Write(game.Metadata.Battles);
-                    Console.Write(Strings.BattleCountSeparator);
-                    Console.WriteLine(game.Current);
+                    if (writeBattles)
+                    {
+                        Console.Write(game.Metadata.Battles);
+                        Console.Write(Strings.BattleCountSeparator);
+                        Console.WriteLine(game.Current);
+                    }
                 }
 
-                Console.WriteLine(game);
+                return game.Metadata;
             }
         }
     }

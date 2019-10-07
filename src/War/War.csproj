@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <Title>War Card Game Library</Title>
+    <Description>A collection of classes to support the card game War.</Description>
+    <Company>N/A</Company>
+    <Authors>David Beckman</Authors>
+    <Copyright>Copyright © 2019 David Beckman. All rights reserved.</Copyright>
+    <NeutralLanguage>en</NeutralLanguage>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 

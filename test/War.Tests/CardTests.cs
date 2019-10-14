@@ -210,9 +210,10 @@ namespace War.Tests
 
         [Theory]
         [MemberData(nameof(GenerateComparisonData))]
-        public void EqualToShouldFollowCompareTo(Card left, Card right)
+        public void EqualToShouldFollowCompareToAndEquals(Card left, Card right)
         {
             Assert.Equal(Card.CompareTo(left, right) == 0, left == right);
+            Assert.Equal(Card.Equals(left, right), left == right);
         }
 
         [Theory]

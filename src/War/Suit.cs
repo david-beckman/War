@@ -7,7 +7,6 @@ namespace War
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>A representation of the 4 standard playing card suits.</summary>
     public class Suit : IEquatable<Suit>, IComparable<Suit>

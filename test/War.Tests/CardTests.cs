@@ -6,6 +6,7 @@
 namespace War.Tests
 {
     using System;
+    using System.Collections.Generic;
 
     using Xunit;
 
@@ -19,6 +20,25 @@ namespace War.Tests
             var suit = SuitTests.Next(random);
 
             return new Card(face, suit);
+        }
+
+        public static IEnumerable<object[]> GenerateComparisonData()
+        {
+            // Equals
+            yield return new[] { new Card(Face.Ace, Suit.Hearts), new Card(Face.Ace, Suit.Hearts) };
+
+            // Less than
+            yield return new[] { new Card(Face.Ace, Suit.Spades), new Card(Face.Ace, Suit.Hearts) };
+            yield return new[] { new Card(Face.Ace, Suit.Hearts), new Card(Face.Two, Suit.Hearts) };
+
+            // Greater than
+            yield return new[] { new Card(Face.Ace, Suit.Hearts), new Card(Face.Ace, Suit.Spades) };
+            yield return new[] { new Card(Face.Two, Suit.Hearts), new Card(Face.Ace, Suit.Hearts) };
+
+            // null
+            yield return new Card[] { new Card(Face.Ace, Suit.Hearts), null };
+            yield return new Card[] { null, new Card(Face.Ace, Suit.Hearts) };
+            yield return new Card[] { null, null };
         }
 
         [Fact]
@@ -172,6 +192,41 @@ namespace War.Tests
             Assert.True(ace.CompareTo(two) < 0);
             Assert.True(ace.CompareTo(two, false) < 0);
             Assert.True(ace.CompareTo(two, true) > 0);
+        }
+
+        [Theory]
+        [MemberData(nameof(GenerateComparisonData))]
+        public void LessThanShouldFollowCompareTo(Card left, Card right)
+        {
+            Assert.Equal(Card.CompareTo(left, right) < 0, left < right);
+        }
+
+        [Theory]
+        [MemberData(nameof(GenerateComparisonData))]
+        public void LessThanOrEqualToShouldFollowCompareTo(Card left, Card right)
+        {
+            Assert.Equal(Card.CompareTo(left, right) <= 0, left <= right);
+        }
+
+        [Theory]
+        [MemberData(nameof(GenerateComparisonData))]
+        public void EqualToShouldFollowCompareTo(Card left, Card right)
+        {
+            Assert.Equal(Card.CompareTo(left, right) == 0, left == right);
+        }
+
+        [Theory]
+        [MemberData(nameof(GenerateComparisonData))]
+        public void GreaterThanShouldFollowCompareTo(Card left, Card right)
+        {
+            Assert.Equal(Card.CompareTo(left, right) > 0, left > right);
+        }
+
+        [Theory]
+        [MemberData(nameof(GenerateComparisonData))]
+        public void GreaterThanOrEqualToShouldFollowCompareTo(Card left, Card right)
+        {
+            Assert.Equal(Card.CompareTo(left, right) >= 0, left >= right);
         }
     }
 }

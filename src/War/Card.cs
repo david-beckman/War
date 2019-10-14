@@ -138,6 +138,40 @@ namespace War
             return left is null ? right is null : left.Equals(right);
         }
 
+        /// <summary>
+        ///     Compares the two instances of the same type and returns an integer that indicates whether the relative sort order of the
+        ///     two.
+        /// </summary>
+        /// <param name="left">The first card to compare.</param>
+        /// <param name="right">The second card to compare.</param>
+        /// <returns>
+        ///     A value that indicates the relative order of the objects being compared. The return value has these meanings:
+        ///     <list type="table">
+        ///         <listheader><term>Value</term><term>Meaning</term></listheader>
+        ///         <item>
+        ///             <term>Less than zero</term>
+        ///             <term><paramref name="left" /> precedes <paramref name="right" /> in the sort order.</term>
+        ///         </item>
+        ///         <item>
+        ///             <term>Zero</term>
+        ///             <term>The two instances occurs in the same position in the sort order.</term>
+        ///         </item>
+        ///         <item>
+        ///             <term>Greater than zero</term>
+        ///             <term><paramref name="left" /> follows <paramref name="right" /> in the sort order.</term>
+        ///         </item>
+        ///     </list>
+        /// </returns>
+        public static int CompareTo(Card left, Card right)
+        {
+            if (left is null)
+            {
+                return right is null ? 0 : -right.CompareTo(null);
+            }
+
+            return left.CompareTo(right);
+        }
+
         /// <inheritdoc />
         public override string ToString()
         {
@@ -207,16 +241,6 @@ namespace War
             }
 
             return this.Suit.CompareTo(other.Suit);
-        }
-
-        private static int CompareTo(Card left, Card right)
-        {
-            if (left is null)
-            {
-                return right is null ? 0 : -right.CompareTo(null);
-            }
-
-            return left.CompareTo(right);
         }
     }
 }

@@ -147,6 +147,40 @@ namespace War
             return left is null ? right is null : left.Equals(right);
         }
 
+        /// <summary>
+        ///     Compares the two specified <see cref="Suit" /> objects and returns an integer that indicates whether
+        ///     <paramref name="left" /> precedes, follows, or occurs in the same position in the sort order as <paramref name="right" />.
+        /// </summary>
+        /// <param name="left">The first suit to compare.</param>
+        /// <param name="right">The second suit to compare.</param>
+        /// <returns>
+        ///     A value that indicates the relative order of the objects being compared. The return value has these meanings:
+        ///     <list type="table">
+        ///         <listheader><term>Value</term><term>Meaning</term></listheader>
+        ///         <item>
+        ///             <term>Less than zero</term>
+        ///             <term><paramref name="left" /> precedes <paramref name="right" /> in the sort order.</term>
+        ///         </item>
+        ///         <item>
+        ///             <term>Zero</term>
+        ///             <term><paramref name="left" /> occurs in the same position in the sort order as <paramref name="right" />.</term>
+        ///         </item>
+        ///         <item>
+        ///             <term>Greater than zero</term>
+        ///             <term><paramref name="left" /> follows <paramref name="right" /> in the sort order.</term>
+        ///         </item>
+        ///     </list>
+        /// </returns>
+        public static int CompareTo(Suit left, Suit right)
+        {
+            if (left is null)
+            {
+                return right is null ? 0 : -right.CompareTo(null);
+            }
+
+            return left.CompareTo(right);
+        }
+
         /// <inheritdoc />
         public override string ToString()
         {
@@ -181,16 +215,6 @@ namespace War
             }
 
             return this.ordinal - other.ordinal;
-        }
-
-        private static int CompareTo(Suit left, Suit right)
-        {
-            if (left is null)
-            {
-                return right is null ? 0 : -right.CompareTo(null);
-            }
-
-            return left.CompareTo(right);
         }
     }
 }

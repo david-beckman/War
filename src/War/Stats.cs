@@ -25,7 +25,7 @@ namespace War
             this.Min = list.Count == 0 ? 0 : list[0];
             this.Max = list.Count == 0 ? 0 : list[list.Count - 1];
             this.Median = list.Count == 0 ? 0 :
-                list.Count % 2 == 1 ? list[list.Count / 2] : (list[(list.Count / 2) - 1] + list[list.Count / 2]);
+                list.Count % 2 == 1 ? list[list.Count / 2] : (list[(list.Count / 2) - 1] + list[list.Count / 2]) / 2.0d;
 
             var average = this.Average = this.Count == 0 ? 0d : list.Sum() * 1.0d / this.Count;
             this.StandardOfDeviation = list.Count == 0 ? 0 :
@@ -46,7 +46,7 @@ namespace War
 
         /// <summary>Gets the median of the set.</summary>
         /// <returns>The median of the set.</returns>
-        public long Median { get; }
+        public double Median { get; }
 
         /// <summary>Gets the average of the set.</summary>
         /// <returns>The average of the set.</returns>
@@ -79,7 +79,7 @@ namespace War
             const string format = @"{0}Count: {1:n0}
 {0}Min: {2:n0}
 {0}Max: {3:n0}
-{0}Median: {4:n0}
+{0}Median: {4:n1}
 {0}Average: {5:n}
 {0}Std of Dev: {6:n}";
             return string.Format(

@@ -72,8 +72,7 @@ namespace War.Console
                     .Range(0, games)
                     .Select(offset => seed == null ? (int?)null : seed.Value + offset)
                     .Select(s => Task.Run(() => this.RunGame(false, s)));
-                Task.WhenAll(tasks);
-                Console.WriteLine(new GamesMetadata(tasks.Select(task => task.Result)));
+                Console.WriteLine(new GamesMetadata(Task.WhenAll(tasks).Result));
             }
         }
 

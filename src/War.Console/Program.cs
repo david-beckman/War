@@ -27,7 +27,7 @@ namespace War.Console
             this.maxBattles = maxBattles;
         }
 
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
             var dictionary = (args ?? Enumerable.Empty<string>())
                 .Where(arg => !string.IsNullOrEmpty(arg) && arg.Contains("=", StringComparison.Ordinal))
@@ -57,10 +57,10 @@ namespace War.Console
                 seed = seedValue;
             }
 
-            new Program(maxBattles).Start(games, seed);
+            await new Program(maxBattles).StartAsync(games, seed).ConfigureAwait(false);
         }
 
-        private void Start(int games, int? seed = null)
+        private async Task StartAsync(int games, int? seed = null)
         {
             if (games == 1)
             {
@@ -72,7 +72,7 @@ namespace War.Console
                     .Range(0, games)
                     .Select(offset => seed == null ? (int?)null : seed.Value + offset)
                     .Select(s => Task.Run(() => this.RunGame(false, s)));
-                Console.WriteLine(new GamesMetadata(Task.WhenAll(tasks).Result));
+                Console.WriteLine(new GamesMetadata(await Task.WhenAll(tasks).ConfigureAwait(false)));
             }
         }
 

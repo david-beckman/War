@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Title>War Card Game Library Tests</Title>
     <Description>Test for the collection of classes to support the card game War.</Description>
     <Company>N/A</Company>
